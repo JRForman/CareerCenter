@@ -53,8 +53,7 @@ module.exports = function(app) {
     }
   });
 
-  
-  // routes for user requests
+// user form get requests
   app.get("/api/:Category?", function(req, res) {
     //  get only category
     if (req.params.Category) {
