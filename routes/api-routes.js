@@ -53,8 +53,10 @@ module.exports = function(app) {
     }
   });
 
+
   
   // routes for user requests
+
   app.get("/api/:Category?", function(req, res) {
     //  get only category
     if (req.params.Category) {
@@ -83,6 +85,7 @@ module.exports = function(app) {
         });
     }
   });
+
   app.get("/api/:Education_Code?", function(req, res) {
     // get only education
     if (req.params.Education_Code) {
@@ -113,4 +116,5 @@ module.exports = function(app) {
         });
     }
   });
+
 };
