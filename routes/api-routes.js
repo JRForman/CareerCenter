@@ -99,10 +99,14 @@ module.exports = function(app) {
     }
   });
   app.get(
-    "/api/:category? AND /api/:asCode? AND /api/:educationCode?",
+    ["/api/:category?", "/api/:asCode?", "/api/:educationCode?"],
     function(req, res) {
       // get all fields
-      if (req.params.category + req.params.asCode + req.params.educationCode) {
+      if (
+        req.params.category &&
+        req.params.asCode &&
+        req.params.educationCode
+      ) {
         db.jobs
           .findAll({
             where: {
