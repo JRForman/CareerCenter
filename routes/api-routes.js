@@ -52,7 +52,7 @@ module.exports = function(app) {
       });
     }
   });
-  
+
   app.get("/api/:Category?", function(req, res) {
     //  get only category
     if (req.params.Category) {
@@ -81,5 +81,4 @@ module.exports = function(app) {
         });
     }
   });
-
 };
