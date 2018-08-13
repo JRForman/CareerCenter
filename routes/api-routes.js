@@ -53,6 +53,10 @@ module.exports = function(app) {
     }
   });
 
+
+  
+  // routes for user requests
+
   app.get("/api/:Category?", function(req, res) {
     //  get only category
     if (req.params.Category) {
@@ -81,4 +85,36 @@ module.exports = function(app) {
         });
     }
   });
+
+  app.get("/api/:Education_Code?", function(req, res) {
+    // get only education
+    if (req.params.Education_Code) {
+      db.jobs
+        .findAll({
+          where: {
+            Education_Code: req.params.Education_Code
+          }
+        })
+        .then(function(dbjobs) {
+          return res.json(dbjobs);
+        });
+    }
+  });
+  app.get("/api/:Category? AND /api/:AS_Code? AND /api/:Education_Code?", function(req, res) {
+    // get all fields
+    if (req.params.Category + req.params.AS_Code + req.params.Education_Code) {
+      db.jobs
+        .findAll({
+          where: {
+            Category: req.params.Category,
+            AS_Code: req.params.AS_Code,
+            Education_Code: req.params.Education_Code
+          }
+        })
+        .then(function(dbjobs) {
+          return res.json(dbjobs);
+        });
+    }
+  });
+
 };

@@ -29,4 +29,25 @@ module.exports = function(app) {
   app.get("/members", isAuthenticated, function(req, res) {
     res.render("index");
   });
+
+
+
+// HTML routes for user form
+
+  function validateForm()
+  {
+      var a=document.forms["Form"]["answer_a"].value;
+      var b=document.forms["Form"]["answer_b"].value;
+      var c=document.forms["Form"]["answer_c"].value;
+      if (a==null || a=="", OR , b==null || b=="", OR, c==null || c=="")
+      {
+          alert("Please Fill Out Fields");
+          return false;
+      }
+  }
+  app.get("/form", function(req, res) {
+    validateForm()
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+  });
+
 };
