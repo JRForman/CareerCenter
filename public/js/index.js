@@ -29,22 +29,20 @@ $("#submit").on("click", function() {
         // append the ocupation name
         $("#resultSection").append("<td>" + data.occupationTitle + "</td>");
         // the annual catagory
-        $("#resultSection").append("<td>Role: " + data.catagory + "</td>");
+        $("#resultSection").append("<td>" + data.catagory + "</td>");
         // the annual wage
-        $("#resultSection").append(
-          "<td>Role: " + data.MedianAnnualWage + "</td>"
-        );
+        $("#resultSection").append("<td>" + data.MedianAnnualWage + "</td>");
         // append the education requirement
         $("#resultSection").append(
           "<td>" + data.typicalEntryLevelEducation + "</td>"
         );
         // the employment level 2016
         $("#resultSection").append(
-          "<td>Role: " + data.employment2016Thousands + "</td>"
+          "<td>" + data.employment2016Thousands + "</td>"
         );
         // the 10 yr employment change
         $("#resultSection").append(
-          "<td>Age: " + data.employmentChange20162026Percent + "</td>"
+          "<td>" + data.employmentChange20162026Percent + "</td>"
         );
         // append the work experience
         $("#resultSection").append(
