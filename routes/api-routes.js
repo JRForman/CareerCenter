@@ -53,6 +53,37 @@ module.exports = function(app) {
     }
   });
 
+  app.get("/api/popCategory", function(req, res) {
+    db.jobs
+      .findAll({
+        group: "Category"
+      })
+      .then(function(data) {
+        // console.log(data);
+        // console.log(data.json);
+        return res.json(data);
+      });
+  });
+
+  app.get("/api/popAsCode", function(req, res) {
+    db.jobs
+      .findAll({
+        group: "asCode"
+      })
+      .then(function(data) {
+        return res.json(data);
+      });
+  });
+
+  app.get("/api/popEducation", function(req, res) {
+    db.jobs
+      .findAll({
+        group: "education"
+      })
+      .then(function(data) {
+        return res.json(data);
+      });
+  });
   // routes for user requests
 
   app.get("/api/:category?", function(req, res) {
