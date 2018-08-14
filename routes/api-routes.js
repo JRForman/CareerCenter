@@ -53,17 +53,15 @@ module.exports = function(app) {
     }
   });
 
-
-  
   // routes for user requests
 
-  app.get("/api/:Category?", function(req, res) {
+  app.get("/api/:category?", function(req, res) {
     //  get only category
-    if (req.params.Category) {
+    if (req.params.category) {
       db.jobs
         .findAll({
           where: {
-            Category: req.params.Category
+            category: req.params.category
           }
         })
         .then(function(dbjobs) {
@@ -71,13 +69,13 @@ module.exports = function(app) {
         });
     }
   });
-  app.get("/api/:AS_Code?", function(req, res) {
+  app.get("/api/:asCode?", function(req, res) {
     // get only salary
-    if (req.params.AS_Code) {
+    if (req.params.asCode) {
       db.jobs
         .findAll({
           where: {
-            AS_Code: req.params.AS_Code
+            asCode: req.params.AS_Code
           }
         })
         .then(function(dbjobs) {
@@ -86,13 +84,13 @@ module.exports = function(app) {
     }
   });
 
-  app.get("/api/:Education_Code?", function(req, res) {
+  app.get("/api/:educationCode?", function(req, res) {
     // get only education
-    if (req.params.Education_Code) {
+    if (req.params.educationCode) {
       db.jobs
         .findAll({
           where: {
-            Education_Code: req.params.Education_Code
+            educationCode: req.params.educationCode
           }
         })
         .then(function(dbjobs) {
@@ -100,21 +98,27 @@ module.exports = function(app) {
         });
     }
   });
-  app.get("/api/:Category? AND /api/:AS_Code? AND /api/:Education_Code?", function(req, res) {
-    // get all fields
-    if (req.params.Category + req.params.AS_Code + req.params.Education_Code) {
-      db.jobs
-        .findAll({
-          where: {
-            Category: req.params.Category,
-            AS_Code: req.params.AS_Code,
-            Education_Code: req.params.Education_Code
-          }
-        })
-        .then(function(dbjobs) {
-          return res.json(dbjobs);
-        });
+  app.get(
+    ["/api/:category?", "/api/:asCode?", "/api/:educationCode?"],
+    function(req, res) {
+      // get all fields
+      if (
+        req.params.category &&
+        req.params.asCode &&
+        req.params.educationCode
+      ) {
+        db.jobs
+          .findAll({
+            where: {
+              Category: req.params.category,
+              asCode: req.params.asCode,
+              educationCode: req.params.educationCode
+            }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+      }
     }
-  });
-
+  );
 };
