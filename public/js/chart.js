@@ -97,3 +97,4 @@ var myChart = new Chart(ctx, {
     ]
   }
 });
+return myChart;
