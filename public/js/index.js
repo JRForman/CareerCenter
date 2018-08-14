@@ -40,6 +40,7 @@ $("#logout").on("click", function() {
   });
 });
 
+// user subission click request
 $("#submit").on("click", function() {
   var searchedCategory = $("#category-search")
     .val()
@@ -55,43 +56,47 @@ $("#submit").on("click", function() {
     "/api/" + searchedCategory,
     +searchedSalary,
     +searchedEducation,
-    function(data) {
+    function(dbData) {
       // log the data to our console
-      console.log(data);
+      console.log(dbData);
       // empty to resultSection before adding new content
       $("#resultSection").empty();
       // if the data is not there, then return an error message
-      if (!data) {
+      if (!dbData) {
         $("#resultSection").append(
           "<h2> No results found. Please change selections </h2>"
         );
       } else {
         // otherwise
         // append the ocupation name
-        $("#resultSection").append("<td>" + data.occupationTitle + "</td>");
+        $("#resultSection").append(
+          "<td>" + dbData[data].occupationTitle + "</td>"
+        );
         // the annual catagory
-        $("#resultSection").append("<td>" + data.catagory + "</td>");
+        $("#resultSection").append("<td>" + dbData[data].catagory + "</td>");
         // the annual wage
-        $("#resultSection").append("<td>" + data.MedianAnnualWage + "</td>");
+        $("#resultSection").append(
+          "<td>" + dbData[data].MedianAnnualWage + "</td>"
+        );
         // append the education requirement
         $("#resultSection").append(
-          "<td>" + data.typicalEntryLevelEducation + "</td>"
+          "<td>" + dbData[data].typicalEntryLevelEducation + "</td>"
         );
         // the employment level 2016
         $("#resultSection").append(
-          "<td>" + data.employment2016Thousands + "</td>"
+          "<td>" + dbData[data].employment2016Thousands + "</td>"
         );
         // the 10 yr employment change
         $("#resultSection").append(
-          "<td>" + data.employmentChange20162026Percent + "</td>"
+          "<td>" + dbData[data].employmentChange20162026Percent + "</td>"
         );
         // append the work experience
         $("#resultSection").append(
-          "<td>" + data.workExperienceInARelatedOccupation + "</td>"
+          "<td>" + dbData[data].workExperienceInARelatedOccupation + "</td>"
         );
         // append the job training
         $("#resultSection").append(
-          "<td>" + data.typicalOnheJobTraining + "</td>"
+          "<td>" + dbData[data].typicalOnheJobTraining + "</td>"
         );
       }
     }
