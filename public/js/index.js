@@ -1,4 +1,27 @@
 // Click events for the submit button
+$(document).ready(function() {
+  // This file just does a GET request to figure out which user is logged in
+  // and updates the HTML on the page
+  $.get("/api/user_data").then(function(data) {
+    $("#member-name").text(data.email);
+  });
+
+  $.get("/api/popCategory").then(function(dbData) {
+    for (data in dbData) {
+      $("#category-search").append(
+        "<option>" + dbData[data].Category + "</option>"
+      );
+    }
+  });
+});
+
+$("#logout").on("click", function() {
+  console.log("Logging out....");
+  $.get("/logout/", function() {
+    window.location.href = "/";
+  });
+});
+
 $("#submit").on("click", function() {
   var searchedCategory = $("#category-search")
     .val()
