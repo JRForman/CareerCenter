@@ -53,37 +53,6 @@ module.exports = function(app) {
     }
   });
 
-  app.get("/api/popCategory", function(req, res) {
-    db.jobs
-      .findAll({
-        group: "category"
-      })
-      .then(function(data) {
-        // console.log(data);
-        // console.log(data.json);
-        return res.json(data);
-      });
-  });
-
-  app.get("/api/popAsCode", function(req, res) {
-    db.jobs
-      .findAll({
-        group: "asCode"
-      })
-      .then(function(data) {
-        return res.json(data);
-      });
-  });
-
-  app.get("/api/popEducation", function(req, res) {
-    db.jobs
-      .findAll({
-        group: "educationCode"
-      })
-      .then(function(data) {
-        return res.json(data);
-      });
-  });
   // routes for user requests
 
   app.get("/api/:category?", function(req, res) {
@@ -130,20 +99,20 @@ module.exports = function(app) {
     }
   });
   app.get(
-    ["/api/:category?", "/api/:asCode?", "/api/:educationCode?"],
+    "/api/:Category? AND /api/:AS_Code? AND /api/:Education_Code?",
     function(req, res) {
       // get all fields
       if (
-        req.params.category &&
-        req.params.asCode &&
-        req.params.educationCode
+        req.params.Category +
+        req.params.AS_Code +
+        req.params.Education_Code
       ) {
         db.jobs
           .findAll({
             where: {
-              Category: req.params.category,
-              asCode: req.params.asCode,
-              educationCode: req.params.educationCode
+              Category: req.params.Category,
+              AS_Code: req.params.AS_Code,
+              Education_Code: req.params.Education_Code
             }
           })
           .then(function(dbjobs) {
