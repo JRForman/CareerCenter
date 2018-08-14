@@ -9,7 +9,25 @@ $(document).ready(function() {
   $.get("/api/popCategory").then(function(dbData) {
     for (data in dbData) {
       $("#category-search").append(
-        "<option>" + dbData[data].Category + "</option>"
+        "<option>" + dbData[data].category + "</option>"
+      );
+    }
+  });
+
+  $.get("/api/popAsCode").then(function(dbData) {
+    console.log(dbData);
+    for (data in dbData) {
+      $("#salary-search").append(
+        "<option>" + dbData[data].asCode + "</option>"
+      );
+    }
+  });
+
+  $.get("/api/popEducation").then(function(dbData) {
+    console.log(dbData);
+    for (data in dbData) {
+      $("#education-search").append(
+        "<option>" + dbData[data].typicalEntryLevelEducation + "</option>"
       );
     }
   });

@@ -1,10 +1,12 @@
 module.exports = function(sequelize, DataTypes) {
   var jobs = sequelize.define("jobs", {
-    // id: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   unique: true
-    // },
+
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      primaryKey: true
+    },
     occupationTitle: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -35,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     asCode: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     },
     typicalEntryLevelEducation: {
@@ -66,6 +68,7 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.STRING,
       allowNull: false
+
     }
   });
   return jobs;

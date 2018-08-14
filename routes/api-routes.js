@@ -75,7 +75,7 @@ module.exports = function(app) {
   app.get("/api/popCategory", function(req, res) {
     db.jobs
       .findAll({
-        group: "Category"
+        group: "category"
       })
       .then(function(data) {
         // console.log(data);
@@ -97,7 +97,7 @@ module.exports = function(app) {
   app.get("/api/poptypicalEntryLevelEducation", function(req, res) {
     db.jobs
       .findAll({
-        group: "typicalEntryLevelEducation"
+        group: "educationCode"
       })
       .then(function(data) {
         return res.json(data);
