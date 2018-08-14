@@ -75,10 +75,10 @@ module.exports = function(app) {
       });
   });
 
-  app.get("/api/popEducation", function(req, res) {
+  app.get("/api/poptypicalEntryLevelEducation", function(req, res) {
     db.jobs
       .findAll({
-        group: "education"
+        group: "typicalEntryLevelEducation"
       })
       .then(function(data) {
         return res.json(data);
@@ -115,13 +115,13 @@ module.exports = function(app) {
     }
   });
 
-  app.get("/api/:educationCode?", function(req, res) {
+  app.get("/api/:typicalEntryLevelEducation?", function(req, res) {
     // get only education
-    if (req.params.educationCode) {
+    if (req.params.typicalEntryLevelEducation) {
       db.jobs
         .findAll({
           where: {
-            educationCode: req.params.educationCode
+            typicalEntryLevelEducation: req.params.typicalEntryLevelEducation
           }
         })
         .then(function(dbjobs) {
@@ -130,20 +130,20 @@ module.exports = function(app) {
     }
   });
   app.get(
-    ["/api/:category?", "/api/:asCode?", "/api/:educationCode?"],
+    ["/api/:category?", "/api/:asCode?", "/api/:typicalEntryLevelEducation?"],
     function(req, res) {
       // get all fields
       if (
         req.params.category &&
         req.params.asCode &&
-        req.params.educationCode
+        req.params.typicalEntryLevelEducation
       ) {
         db.jobs
           .findAll({
             where: {
               Category: req.params.category,
               asCode: req.params.asCode,
-              educationCode: req.params.educationCode
+              educationCode: req.params.typicalEntryLevelEducation
             }
           })
           .then(function(dbjobs) {
