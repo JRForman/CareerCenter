@@ -1,85 +1,70 @@
 module.exports = function(sequelize, DataTypes) {
   var jobs = sequelize.define("jobs", {
     id: {
-      Type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true
+      unique: true,
+      primaryKey: true
     },
     occupationTitle: {
-      Type: DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true
     },
     category: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     employment2016Thousands: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     employment2026Thousands: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     employmentChange20162026Percent: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     occupationalOpenings20162026AnnualAverageThousands: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     medianAnnualWage: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     asCode: {
-      Type: DataTypes.INT,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     typicalEntryLevelEducation: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     educationCode: {
-      Type: DataTypes.INT,
-      allowNull: false,
-      unique: true
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     workExperienceInARelatedOccupation: DataTypes.STRING,
     workExCode: {
-      Type: DataTypes.INT,
-      allowNull: false,
-      unique: true
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     TypicalOnTheJobTraining: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING,
+      allowNull: false
     },
     trCode: {
-      Type: DataTypes.INT,
-      allowNull: false,
-      unique: true
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     createdAt: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING
     },
     updatedAt: {
-      Type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      type: DataTypes.STRING
     }
   });
   return jobs;
