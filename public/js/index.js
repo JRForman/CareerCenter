@@ -50,6 +50,14 @@ $("#submit").on("click", function() {
         );
       } else {
         // otherwise
+        // append icon to save selections
+        $("#resultSection").append(
+          "<td>" +
+            "<button type='button'>" +
+            "../images/iconmonstr-plus-circle-thin-24.png+" +
+            "</button>" +
+            "</td>"
+        );
         // append the ocupation name
         $("#resultSection").append(
           "<td>" + dbData[data].occupationTitle + "</td>"
