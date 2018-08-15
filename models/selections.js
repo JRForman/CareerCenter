@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
-  var Selected = sequelize.define("Selected", {
-    SelectionId: {
+  var Selections = sequelize.define("Selected", {
+    selectionId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
@@ -34,8 +34,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   });
-  Selected.associate = function(models) {
-    Selected.belongsTo(models.User, {
+  Selections.associate = function(models) {
+    Selections.belongsTo(models.User, {
       foreignKey: {
         allowNull: false
       }
