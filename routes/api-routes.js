@@ -252,19 +252,34 @@ module.exports = function(app) {
       }
     }
   });
-  // user selection routes
-  app.get("/api/:userID?", function(req, res) {
-    //  get only category
-    if (req.params.userID) {
-      db.selections
-        .findAll({
-          where: {
-            id: req.params.userID
-          }
-        })
-        .then(function(dbselections) {
-          return res.json(dbselections);
-        });
-    }
+  app.post("/api/addUserSelection", function(req, res) {
+    var data = req.body;
+    console.log(data);
+    // if (req.params.asCode) {
+    //   db.jobs
+    //     .findAll({
+    //       where: {
+    //         asCode: req.params.AS_Code
+    //       }
+    //     })
+    //     .then(function(dbjobs) {
+    //       return res.json(dbjobs);
+    //     });
+    // }
+    // user selection routes
+    app.get("/api/:userID?", function(req, res) {
+      //  get only category
+      if (req.params.userID) {
+        db.selections
+          .findAll({
+            where: {
+              id: req.params.userID
+            }
+          })
+          .then(function(dbselections) {
+            return res.json(dbselections);
+          });
+      }
+    });
   });
 };

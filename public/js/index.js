@@ -89,13 +89,18 @@ $("#submit").on("click", function(e) {
           // console.log(dbData[data]);
           var newRow = $("<tr>");
           $(newRow).append(
-            "<td>" +
-              "<button type='button'>" +
-              "../images/iconmonstr-plus-circle-thin-24.png+" +
-              "</button>" +
+            "<td class='add'><button class='btn' id='" +
+              dbData[data].id +
+              "'><i class='fa fa-home'></i> Add</button>" +
               "</td>"
           );
-          $(newRow).append("<td>" + dbData[data].occupationTitle + "</td>");
+          $(newRow).append(
+            "<td id='oT" +
+              dbData[data].id +
+              "'>" +
+              dbData[data].occupationTitle +
+              "</td>"
+          );
           // the annual catagory
           $(newRow).append("<td>" + dbData[data].category + "</td>");
           // the annual wage"
@@ -126,4 +131,18 @@ $("#submit").on("click", function(e) {
       }
     }
   );
+});
+
+$("#resultSection").on("click", function(e) {
+  e.preventDefault();
+  if (e.target.className === "btn") {
+    selectionID = e.target.id;
+    var userValues = {
+      selectionID: selectionID
+    };
+    var oT = "oT" + selectionID;
+    var text = $("#" + oT).text;
+    console.log(text);
+    $.post("/api/addUserSelection", userValues);
+  }
 });
