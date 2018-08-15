@@ -259,7 +259,7 @@ module.exports = function(app) {
       db.selections
         .findAll({
           where: {
-            userID: req.params.userID
+            id: req.params.userID
           }
         })
         .then(function(dbselections) {
