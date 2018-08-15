@@ -54,7 +54,7 @@ module.exports = function(app) {
   });
 
   // Route for saving user job selections
-  app.post("/api/form", function(req, res) {
+  app.post("/api/form", function(req) {
     console.log(req.body);
     db.User.append({
       UserInfo: req.body.userInfo
@@ -251,5 +251,21 @@ module.exports = function(app) {
           });
       }
     }
+  });
+
+  app.post("/api/addUserSelection", function(req, res) {
+    var data = req.body;
+    console.log(data);
+    // if (req.params.asCode) {
+    //   db.jobs
+    //     .findAll({
+    //       where: {
+    //         asCode: req.params.AS_Code
+    //       }
+    //     })
+    //     .then(function(dbjobs) {
+    //       return res.json(dbjobs);
+    //     });
+    // }
   });
 };
