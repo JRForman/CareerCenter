@@ -267,5 +267,20 @@ module.exports = function(app) {
     //       return res.json(dbjobs);
     //     });
     // }
+    // user selection routes
+    app.get("/api/:userID?", function(req, res) {
+      //  get only category
+      if (req.params.userID) {
+        db.selections
+          .findAll({
+            where: {
+              userID: req.params.userID
+            }
+          })
+          .then(function(dbselections) {
+            return res.json(dbselections);
+          });
+      }
+    });
   });
 };

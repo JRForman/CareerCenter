@@ -51,4 +51,9 @@ module.exports = function(app) {
     validateForm();
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
+
+  // HTML route for charts
+  app.get("/charts", function(req, res) {
+    res.render("charts");
+  });
 };

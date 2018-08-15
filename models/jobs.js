@@ -11,6 +11,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: true
     },
+    AbbreviatedName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
     category: {
       type: DataTypes.STRING,
       allowNull: false
