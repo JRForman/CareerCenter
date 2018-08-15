@@ -53,6 +53,37 @@ module.exports = function(app) {
     }
   });
 
+  app.get("/api/popCategory", function(req, res) {
+    db.jobs
+      .findAll({
+        group: "category"
+      })
+      .then(function(data) {
+        // console.log(data);
+        // console.log(data.json);
+        return res.json(data);
+      });
+  });
+
+  app.get("/api/popAsCode", function(req, res) {
+    db.jobs
+      .findAll({
+        group: "asCode"
+      })
+      .then(function(data) {
+        return res.json(data);
+      });
+  });
+
+  app.get("/api/poptypicalEntryLevelEducation", function(req, res) {
+    db.jobs
+      .findAll({
+        group: "educationCode"
+      })
+      .then(function(data) {
+        return res.json(data);
+      });
+  });
   // routes for user requests
 
   app.get("/api/:category?", function(req, res) {
@@ -84,13 +115,13 @@ module.exports = function(app) {
     }
   });
 
-  app.get("/api/:educationCode?", function(req, res) {
+  app.get("/api/:typicalEntryLevelEducation?", function(req, res) {
     // get only education
-    if (req.params.educationCode) {
+    if (req.params.typicalEntryLevelEducation) {
       db.jobs
         .findAll({
           where: {
-            educationCode: req.params.educationCode
+            typicalEntryLevelEducation: req.params.typicalEntryLevelEducation
           }
         })
         .then(function(dbjobs) {
@@ -99,20 +130,20 @@ module.exports = function(app) {
     }
   });
   app.get(
-    "/api/:Category? AND /api/:AS_Code? AND /api/:Education_Code?",
+    ["/api/:category?", "/api/:asCode?", "/api/:typicalEntryLevelEducation?"],
     function(req, res) {
       // get all fields
       if (
-        req.params.Category +
-        req.params.AS_Code +
-        req.params.Education_Code
+        req.params.category &&
+        req.params.asCode &&
+        req.params.typicalEntryLevelEducation
       ) {
         db.jobs
           .findAll({
             where: {
-              Category: req.params.Category,
-              AS_Code: req.params.AS_Code,
-              Education_Code: req.params.Education_Code
+              Category: req.params.category,
+              asCode: req.params.asCode,
+              educationCode: req.params.typicalEntryLevelEducation
             }
           })
           .then(function(dbjobs) {

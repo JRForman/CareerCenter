@@ -1,14 +1,21 @@
 var iRate = 6.5 / 1200;
-var iMonths = 120;
-var PV = 80000;
-//var FV = 0;
+var iMonths = 360;
 var remainingBalance = [];
-var months = [];
-var yearlyFV = [];
-var startingBalance = 80000;
-totalBalance = startingBalance;
-var yearBal = [];
+var years = [];
+var loanAmount = 80000;
+var StdLoanBalance = [];
+//         if("selection from Education level"==="High school diploma or equivalent"){
+//     loanAmount = 0;
+// }if("selection from Education level"==="Postsecondary nondegree award"||"Associate's degree"){
+//     loanAmount = 20000;
+// }if("selection from Education level"==="Bachelor's degree"){
+//     loanAmount = 80000;
+// }if("selection from Education level"==="Master's degree"){
+//     loanAmount = 140000;
+// }if("selection from Education level"==="Doctoral or professional degree"){
+//     loanAmount = 190000;
 
+//Student Loan calculations
 function getTotalBalance(balance, iRate, iMonths) {
   return balance * Math.pow(1 + iRate, iMonths);
 }
@@ -21,80 +28,238 @@ function getMonthlyPayment(balance, iRate, iMonths) {
   );
 }
 
-// Get our total balance
-totalBalance = getTotalBalance(startingBalance, iRate, iMonths);
-// Determine our total interest during the time period.
-interest = totalBalance - startingBalance;
-// Get our monthly payment
-monthlyPayment = Math.ceil(getMonthlyPayment(startingBalance, iRate, iMonths));
-console.log(Math.ceil(monthlyPayment));
-//montlyPayment rounded up
+//calculate monthly payment and change to two decimal places
+monthlyPayment = getMonthlyPayment(loanAmount, iRate, iMonths).toFixed(2);
+console.log(monthlyPayment);
+//montlyPayment rounded up and to two decimal places
 
-var bal = PV;
+interest = (monthlyPayment * iMonths - loanAmount).toFixed(2);
+
+console.log("interest", interest);
+//create arrays to push into charts
+var bal = loanAmount;
 for (var p = 1; p <= iMonths; p++) {
   var thisMonthsInterest = bal * iRate;
   bal -= monthlyPayment - thisMonthsInterest;
   remainingBalance.push(bal);
 }
 
-for (var i = 0; i < 240; i += 60) {
-  yearBal.push(remainingBalance[i]);
+for (var i = 0; i < iMonths; i += 12) {
+  StdLoanBalance.push(remainingBalance[i]);
 }
 
-for (var i = 0; i < yearBal.length; i++) {
-  if (typeof yearBal[i] === "undefined") {
-    yearBal[i] = 0;
-  }
-}
+//change months to years
 
-//compound interest no payments
-
-for (var x = 1; x <= iMonths; x++) {
-  amount = PV * Math.pow(1 + iRate, x);
-  if (x % 60 === 0) {
-    yearlyFV.push(amount);
-    months.push(x);
-  }
+for (var x = 0; x <= iMonths; x += 12) {
+  years.push(x / 12);
 }
-
-var school = true;
-if (school) {
-  yearBal.unshift(20000, 40000, 60000, 80000);
-  months.unshift(0, 12, 24, 36);
-}
-console.log("yearBal", yearBal);
-console.log("totalBalance", totalBalance);
+console.log("years", years);
+console.log("StdLoanBalance", StdLoanBalance);
 console.log("interest", interest);
 console.log("monthly payment", monthlyPayment);
+console.log(
+  "percent",
+  (interest / (interest + loanAmount)) * 100,
+  (loanAmount / (interest + loanAmount)) * 100
+);
 
-var median = 60000;
-var starting = median * 0.67;
-var fiveYears = median * 0.87;
-var ending = median * 1.35;
-var last = median * 1.5;
-var medSalaries = [starting, fiveYears, median, ending, last];
-var medLables = [0, 5, 10, 15, 20];
+//set values to two decimal places
 
-medSalaries.unshift(10000, 10000, 10000, 10000);
-medLables.unshift(-4, -3, -2, -1);
-
-var ctx = document.getElementById("myChart").getContext("2d");
-var myChart = new Chart(ctx, {
-  type: "line",
-  data: {
-    labels: medLables,
-    datasets: [
-      {
-        label: "median wage",
-        data: medSalaries,
-        backgroundColor: "rgba(179,124,87,.4)"
-      },
-      {
-        label: "cost of school",
-        data: yearBal,
-        backgroundColor: "rgba(60,69,92,0.4)"
-      }
-    ]
-  }
+StdLoanBalance = StdLoanBalance.map(function(eachElement) {
+  return Number(eachElement.toFixed(2));
 });
-return myChart;
+
+var medSalaries = [];
+var median = 60000;
+median = median * 0.5;
+
+for (var i = 0; i <= 30; i++) {
+  median = median * 1.03729;
+  medSalaries.push(median);
+}
+var medSalaries2 = [];
+var median2 = 40000;
+median2 = median2 * 0.5;
+//create a for each function
+for (var i = 0; i <= 30; i++) {
+  median2 = median2 * 1.0372;
+  medSalaries2.push(median2);
+}
+var medSalaries3 = [];
+var median3 = 30000;
+median3 = median3 * 0.5;
+
+for (var i = 0; i <= 30; i++) {
+  median3 = median3 * 1.038;
+  medSalaries3.push(median3);
+}
+for (var x = 0; x <= years; x += 5) {
+  years.push(x);
+}
+
+//create a for each function
+
+console.log("mediansalarys", medSalaries);
+console.log("mediansalarys2", medSalaries2);
+console.log("mediansalarys3", medSalaries3);
+
+///displaying graphs
+var pieChartData = {
+  labels: ["Interest Paid", "Amount Borrowed"],
+  datasets: [
+    {
+      label: ["Interest Paid", "Amount Borrowed"],
+      backgroundColor: [
+        "rgba(179,124,87,.4)",
+        "rgba(154,172,184,.4)",
+        "rgba(60,69,92,.4)"
+      ],
+      data: [interest, loanAmount]
+    }
+  ],
+  options: {
+    pieceLabel: {
+      render: "value"
+    }
+  }
+};
+
+var StdLoanData = {
+  labels: years,
+  datasets: [
+    {
+      label: "Student Loan Payment",
+      backgroundColor: "rgba(60,69,92,0.4)",
+      data: StdLoanBalance
+    }
+  ]
+};
+var comparisonData = {
+  labels: years,
+  datasets: [
+    {
+      label: "Job1",
+      data: medSalaries,
+      backgroundColor: "rgba(179,124,87,.4)"
+    },
+    {
+      label: "Student Loan Balance ",
+      data: StdLoanBalance,
+      backgroundColor: "rgba(60,69,92,0.4)"
+    }
+  ],
+  options: {
+    pieceLabel: {
+      render: "value"
+    }
+  }
+};
+var medianData = {
+  labels: years,
+  datasets: [
+    {
+      label: "Job1",
+      data: medSalaries,
+      backgroundColor: "rgba(179,124,87,.7)",
+      fill: false
+    },
+    {
+      label: "Job2 ",
+      data: medSalaries2,
+      backgroundColor: "rgba(60,69,92,0.7)",
+      fill: false
+    },
+    {
+      label: "Job2 ",
+      data: medSalaries3,
+      backgroundColor: "rgba(96,65,43,0.7)",
+      fill: false
+    }
+  ],
+  options: {
+    pieceLabel: {
+      render: "value"
+    }
+  }
+};
+
+window.onload = function() {
+  var ctx = document.getElementById("canvas").getContext("2d");
+  window.myBar = new Chart(ctx, {
+    type: "pie",
+    data: pieChartData,
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Cost of Your Education"
+      }
+    }
+  });
+
+  var ctx2 = document.getElementById("canvas2").getContext("2d");
+  window.myBar = new Chart(ctx2, {
+    type: "line",
+    data: StdLoanData,
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Student Loan Interest Paid vs. Amount Borrowed"
+      },
+      scales: {
+        axisX: {
+          lable: iMonths
+        },
+
+        yAxes: [
+          {
+            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+            display: true,
+            position: "left"
+          }
+        ]
+      }
+    }
+  });
+
+  var ctx3 = document.getElementById("canvas1").getContext("2d");
+  window.myBar = new Chart(ctx3, {
+    type: "line",
+    data: medianData,
+    options: {
+      responsive: true,
+
+      title: {
+        display: true,
+        text: "Employement Comparison"
+      },
+      scales: {
+        axisX: {
+          lable: iMonths
+        },
+
+        yAxes: [
+          {
+            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+            display: true,
+            position: "left"
+          }
+        ]
+      }
+    }
+  });
+
+  var ctx4 = document.getElementById("canvas3").getContext("2d");
+  window.myBar = new Chart(ctx4, {
+    type: "line",
+    data: comparisonData,
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Student Loan Debt vs. Income"
+      }
+    }
+  });
+};
