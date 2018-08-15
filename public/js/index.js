@@ -63,7 +63,7 @@ $("#submit").on("click", function(e) {
           "<h2> No results found. Please change selections </h2>"
         );
       } else {
-        // otherwiseS
+        // otherwise
         //add column headers
         var head = $("<thead>");
         var row = $("<tr>");

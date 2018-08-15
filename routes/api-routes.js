@@ -53,6 +53,25 @@ module.exports = function(app) {
     }
   });
 
+  // Route for saving user job selections
+  app.post("/api/form", function(req, res) {
+    console.log(req.body);
+    db.User.append({
+      UserInfo: req.body.userInfo
+    });
+  });
+  // Route for  getting user job selections
+  app.get("/api/form", function(req, res) {
+    db.user
+      .findAll({
+        group: "userInfo"
+      })
+      .then(function(data) {
+        return res.json(data);
+      });
+  });
+
+  // show form
   app.get("/api/popCategory", function(req, res) {
     db.jobs
       .findAll({
