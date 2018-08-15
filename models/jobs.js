@@ -1,6 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
   var jobs = sequelize.define("jobs", {
-
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -68,7 +67,6 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.STRING,
       allowNull: false
-
     }
   });
   return jobs;

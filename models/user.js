@@ -18,7 +18,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    userInfo: {
+    userInfo1: {
+      type: DataTypes.STRING
+    },
+    userInfo2: {
+      type: DataTypes.STRING
+    },
+    userInfo3: {
       type: DataTypes.STRING
     }
   });

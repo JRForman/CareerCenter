@@ -134,22 +134,103 @@ module.exports = function(app) {
     res
   ) {
     // get all fields
-    if (
-      req.params.category &&
-      req.params.asCode &&
-      req.params.typicalEntryLevelEducation
-    ) {
-      db.jobs
-        .findAll({
-          where: {
-            category: req.params.category,
-            asCode: req.params.asCode,
-            typicalEntryLevelEducation: req.params.typicalEntryLevelEducation
-          }
-        })
-        .then(function(dbjobs) {
+    var category = req.params.category;
+    var asCode = req.params.asCode;
+    var typicalEntryLevelEducation = req.params.typicalEntryLevelEducation;
+
+    switch (true) {
+      case category === "Search All" &&
+        asCode === "Search All" &&
+        typicalEntryLevelEducation === "Search All": {
+        db.jobs.findAll({ where: {} }).then(function(dbjobs) {
           return res.json(dbjobs);
         });
+        break;
+      }
+      case category === "Search All" && asCode === "Search All": {
+        db.jobs
+          .findAll({
+            where: { typicalEntryLevelEducation: typicalEntryLevelEducation }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+        break;
+      }
+      case category === "Search All" &&
+        typicalEntryLevelEducation === "Search All": {
+        db.jobs
+          .findAll({
+            where: { asCode: asCode }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+        break;
+      }
+      case asCode === "Search All" &&
+        typicalEntryLevelEducation === "Search All": {
+        db.jobs
+          .findAll({
+            where: { category: category }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+        break;
+      }
+      case category === "Search All": {
+        db.jobs
+          .findAll({
+            where: {
+              typicalEntryLevelEducation: typicalEntryLevelEducation,
+              asCode: asCode
+            }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+        break;
+      }
+      case asCode === "Search All": {
+        db.jobs
+          .findAll({
+            where: {
+              category: category,
+              typicalEntryLevelEducation: typicalEntryLevelEducation
+            }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+        break;
+      }
+      case typicalEntryLevelEducation === "Search All": {
+        db.jobs
+          .findAll({
+            where: {
+              category: category,
+              asCode: asCode
+            }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+        break;
+      }
+      default: {
+        db.jobs
+          .findAll({
+            where: {
+              typicalEntryLevelEducation: typicalEntryLevelEducation,
+              category: category,
+              asCode: asCode
+            }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+      }
     }
   });
 };
