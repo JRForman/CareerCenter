@@ -54,7 +54,7 @@ module.exports = function(app) {
   });
 
   // Route for saving user job selections
-  app.post("/api/form", function(req, res) {
+  app.post("/api/form", function(req) {
     console.log(req.body);
     db.User.append({
       UserInfo: req.body.userInfo
@@ -250,6 +250,21 @@ module.exports = function(app) {
             return res.json(dbjobs);
           });
       }
+    }
+  });
+  // user selection routes
+  app.get("/api/:userID?", function(req, res) {
+    //  get only category
+    if (req.params.userID) {
+      db.selections
+        .findAll({
+          where: {
+            userID: req.params.userID
+          }
+        })
+        .then(function(dbselections) {
+          return res.json(dbselections);
+        });
     }
   });
 };
