@@ -129,27 +129,27 @@ module.exports = function(app) {
         });
     }
   });
-  app.get(
-    ["/api/:category?", "/api/:asCode?", "/api/:typicalEntryLevelEducation?"],
-    function(req, res) {
-      // get all fields
-      if (
-        req.params.category &&
-        req.params.asCode &&
-        req.params.typicalEntryLevelEducation
-      ) {
-        db.jobs
-          .findAll({
-            where: {
-              Category: req.params.category,
-              asCode: req.params.asCode,
-              educationCode: req.params.typicalEntryLevelEducation
-            }
-          })
-          .then(function(dbjobs) {
-            return res.json(dbjobs);
-          });
-      }
+  app.get("/api/:category/:asCode/:typicalEntryLevelEducation", function(
+    req,
+    res
+  ) {
+    // get all fields
+    if (
+      req.params.category &&
+      req.params.asCode &&
+      req.params.typicalEntryLevelEducation
+    ) {
+      db.jobs
+        .findAll({
+          where: {
+            category: req.params.category,
+            asCode: req.params.asCode,
+            typicalEntryLevelEducation: req.params.typicalEntryLevelEducation
+          }
+        })
+        .then(function(dbjobs) {
+          return res.json(dbjobs);
+        });
     }
-  );
+  });
 };
