@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
   var jobs = sequelize.define("jobs", {
-    id: {
+    jobsId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,

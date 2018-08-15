@@ -1,7 +1,6 @@
-
 module.exports = function(sequelize, DataTypes) {
   var Selected = sequelize.define("Selected", {
-    SelectedId: {
+    SelectionId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
@@ -21,11 +20,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: true,
-        primaryKey: true
-      },
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      primaryKey: true
+    },
     createdAt: {
       type: DataTypes.STRING,
       allowNull: false
@@ -35,12 +34,12 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   });
- Selected.associate= function(models){
-     Selected.belongsTo(models.User,{
-         foreignKey:{
-             allowNull:false
-         }
-     })
-
+  Selected.associate = function(models) {
+    Selected.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false
+      }
+    });
+  };
   return Selected;
 };
