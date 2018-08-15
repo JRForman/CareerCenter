@@ -9,6 +9,6 @@ $(document).ready(function() {
 // post req for user job selections
 $("#saveButton").on("click", function() {
   $.get("/api/:id").then(function(DBData) {
-    $(DBData[data].userId).append("/api/user");
+    $(DBData[data].id).append("/api/user");
   });
 });
