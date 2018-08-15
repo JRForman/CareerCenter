@@ -252,7 +252,6 @@ module.exports = function(app) {
       }
     }
   });
-
   app.post("/api/addUserSelection", function(req, res) {
     var data = req.body;
     console.log(data);
@@ -274,7 +273,7 @@ module.exports = function(app) {
         db.selections
           .findAll({
             where: {
-              userID: req.params.userID
+              id: req.params.userID
             }
           })
           .then(function(dbselections) {
