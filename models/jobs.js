@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: true
     },
-    AbbreviatedName: {
+    abbreviatedName: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
