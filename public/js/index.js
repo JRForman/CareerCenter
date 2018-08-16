@@ -14,13 +14,11 @@ $(document).ready(function () {
         $("#compare").css("display", "inherit");
         for (job in jobsArray) {
           $.get("/api/findJob/" + jobsArray[job]).then(function (dbData) {
-            console.log(dbData);
-            console.log(dbData.id);
             var newRow = $("<tr>");
             $(newRow).append(
               "<td class='clear'><button class='btn' id='" +
               dbData.id +
-              "'><i class='fa fa-home'></i> Clear</button>" +
+              "'><i class='fas fa-minus'></i> Clear</button>" +
               "</td>"
             );
             $(newRow).append(
@@ -150,7 +148,7 @@ $("#submit").on("click", function (e) {
           $(newRow).append(
             "<td class='add'><button class='btn' id='" +
             dbData[data].id +
-            "'><i class='fa fa-home'></i> Add</button>" +
+            "'><i class='fas fa-plus'></i> Add</button>" +
             "</td>"
           );
           $(newRow).append(
@@ -242,4 +240,8 @@ $("#savedSection").on("click", function (e) {
     $.post("/api/subUserSelection", userValues);
 
   }
+});
+
+$("#compare").on("click", function () {
+  window.location.replace("/charts");
 });
