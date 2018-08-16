@@ -1,12 +1,69 @@
 // Click events for the submit button
-$(document).ready(function() {
+$(document).ready(function () {
   // This file just does a GET request to figure out which user is logged in
   // and updates the HTML on the page
-  $.get("/api/user_data").then(function(data) {
-    $("#member-name").text(data.email);
+  $.get("/api/user_data").then(function (user) {
+    $("#member-name").text(user.email);
+    $.get("/api/savedJobs/" + user.id).then(function (userData) {
+      if (userData == "" || userData == null) {
+        console.log("No saved jobs");
+      } else {
+        var jobsArray = userData.split(",");
+        $("#savedTitle").text("Saved Jobs");
+        $("#savedHeader").css("display", "table-row");
+        $("#compare").css("display", "inherit");
+        for (job in jobsArray) {
+          $.get("/api/findJob/" + jobsArray[job]).then(function (dbData) {
+            console.log(dbData);
+            console.log(dbData.id);
+            var newRow = $("<tr>");
+            $(newRow).append(
+              "<td class='clear'><button class='btn' id='" +
+              dbData.id +
+              "'><i class='fa fa-home'></i> Clear</button>" +
+              "</td>"
+            );
+            $(newRow).append(
+              "<td id='oT" +
+              dbData.id +
+              "'>" +
+              dbData.abbreviatedName +
+              "</td>"
+            );
+            // the annual catagory
+            $(newRow).append("<td>" + dbData.category + "</td>");
+            // the annual wage"
+            $(newRow).append("<td>" + dbData.medianAnnualWage + "</td>");
+            // append the education requirement
+            $(newRow).append(
+              "<td>" + dbData.typicalEntryLevelEducation + "</td>"
+            );
+            // the employment level 2016
+            $(newRow).append(
+              "<td>" + dbData.employment2016Thousands + "</td>"
+            );
+            // the 10 yr employment change
+            $(newRow).append(
+              "<td>" + dbData.employmentChange20162026Percent + "</td>"
+            );
+            // append the work experience
+            $(newRow).append(
+              "<td>" + dbData.workExperienceInARelatedOccupation + "</td>"
+            );
+            // append the job training
+            $(newRow).append(
+              "<td>" + dbData.TypicalOnTheJobTraining + "</td>"
+            );
+            // $("#resultSection").append(newRow);
+            $("#savedSection").append(newRow);
+          });
+        }
+
+      }
+    });
   });
 
-  $.get("/api/popCategory").then(function(dbData) {
+  $.get("/api/popCategory").then(function (dbData) {
     for (data in dbData) {
       $("#category-search").append(
         "<option>" + dbData[data].category + "</option>"
@@ -14,7 +71,7 @@ $(document).ready(function() {
     }
   });
 
-  $.get("/api/popAsCode").then(function(dbData) {
+  $.get("/api/popAsCode").then(function (dbData) {
     for (data in dbData) {
       $("#salary-search").append(
         "<option>" + dbData[data].asCode + "</option>"
@@ -22,7 +79,7 @@ $(document).ready(function() {
     }
   });
 
-  $.get("/api/poptypicalEntryLevelEducation").then(function(dbData) {
+  $.get("/api/poptypicalEntryLevelEducation").then(function (dbData) {
     for (data in dbData) {
       $("#education-search").append(
         "<option>" + dbData[data].typicalEntryLevelEducation + "</option>"
@@ -31,15 +88,15 @@ $(document).ready(function() {
   });
 });
 
-$("#logout").on("click", function() {
+$("#logout").on("click", function () {
   console.log("Logging out....");
-  $.get("/logout/", function() {
+  $.get("/logout/", function () {
     window.location.href = "/";
   });
 });
 
 // user subission click request
-$("#submit").on("click", function(e) {
+$("#submit").on("click", function (e) {
   e.preventDefault();
   var searchedCategory = $("#category-search")
     .val()
@@ -53,7 +110,7 @@ $("#submit").on("click", function(e) {
   // get request from database
   $.get(
     "/api/" + searchedCategory + "/" + searchedSalary + "/" + searchedEducation,
-    function(dbData) {
+    function (dbData) {
       // log the data to our console
       // empty to resultSection before adding new content
       $("#resultSection").empty();
@@ -65,6 +122,8 @@ $("#submit").on("click", function(e) {
       } else {
         // otherwise
         //add column headers
+        $("#resultTitle").text("Results");
+
         var head = $("<thead>");
         var row = $("<tr>");
         $(row).append("<th scope='col'>Add to Comparison</th>");
@@ -90,16 +149,16 @@ $("#submit").on("click", function(e) {
           var newRow = $("<tr>");
           $(newRow).append(
             "<td class='add'><button class='btn' id='" +
-              dbData[data].id +
-              "'><i class='fa fa-home'></i> Add</button>" +
-              "</td>"
+            dbData[data].id +
+            "'><i class='fa fa-home'></i> Add</button>" +
+            "</td>"
           );
           $(newRow).append(
             "<td id='oT" +
-              dbData[data].id +
-              "'>" +
-              dbData[data].occupationTitle +
-              "</td>"
+            dbData[data].id +
+            "'>" +
+            dbData[data].abbreviatedName +
+            "</td>"
           );
           // the annual catagory
           $(newRow).append("<td>" + dbData[data].category + "</td>");
@@ -126,23 +185,61 @@ $("#submit").on("click", function(e) {
             "<td>" + dbData[data].TypicalOnTheJobTraining + "</td>"
           );
           // $("#resultSection").append(newRow);
-          $("#resultSection > tbody:last-child").append(newRow);
+          $("#resultSection").append(newRow);
         }
+
       }
     }
   );
 });
 
-$("#resultSection").on("click", function(e) {
+$("#resultSection").on("click", function (e) {
   e.preventDefault();
   if (e.target.className === "btn") {
+    var count = $("#savedSection")[0].rows.length;
+    if (count > 5) {
+      alert("Please limit your selections to 5 jobs");
+    } else {
+      $("#savedTitle").text("Saved Jobs");
+      $("#savedHeader").css("display", "table-row");
+      $("#compare").css("display", "inherit");
+      $(e.target).text("clear");
+      var row = $(e.target).parent().parent()[0].outerHTML;
+      $("#savedSection").append(row);
+      $(e.target).parent().parent().remove();
+      selectionID = e.target.id;
+      var user = $("#member-name").text();
+      var userValues = {
+        user: user,
+        selectionID: selectionID
+
+      };
+      $.post("/api/addUserSelection", userValues);
+    }
+  }
+});
+
+$("#savedSection").on("click", function (e) {
+  e.preventDefault();
+  if (e.target.className === "btn") {
+    $(e.target).text("add");
+    // var row = $(e.target).parent().parent()[0].outerHTML;
+    // $("#resultSection").prepend(row);
+    $(e.target).parent().parent().remove();
     selectionID = e.target.id;
+    var user = $("#member-name").text();
     var userValues = {
+      user: user,
       selectionID: selectionID
+
     };
-    var oT = "oT" + selectionID;
-    var text = $("#" + oT).text;
-    console.log(text);
-    $.post("/api/addUserSelection", userValues);
+    var count = $("#savedSection")[0].rows.length;
+    if (count <= 1) {
+      $("#savedTitle").text("");
+      $("#savedHeader").css("display", "none");
+      $("#compare").css("display", "none");
+    }
+    $.post("/api/subUserSelection", userValues);
+
   }
 });
