@@ -48,7 +48,8 @@ module.exports = function (app) {
       // Sending back a password, even a hashed password, isn't a good idea
       res.json({
         email: req.user.email,
-        id: req.user.id
+        id: req.user.id,
+        userInfo: req.user.userInfo
       });
     }
   });
@@ -102,18 +103,18 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/savedJobs/:userId?", function(req, res){
+  app.get("/api/savedJobs/:userId?", function (req, res) {
     db.User.findOne({
-      where:{id: req.params.userId}
-    }).then(function(data){
+      where: { id: req.params.userId }
+    }).then(function (data) {
       return res.json(data.userInfo);
     });
   });
 
-  app.get("/api/findJob/:jobId?", function(req, res){
+  app.get("/api/findJob/:jobId?", function (req, res) {
     db.jobs.findOne({
-      where:{id: req.params.jobId}
-    }).then(function(data){
+      where: { id: req.params.jobId }
+    }).then(function (data) {
       return res.json(data);
     });
   });
@@ -168,9 +169,9 @@ module.exports = function (app) {
         console.log(dbUser.userInfo);
         var pushInfo;
         var userInfoArray = dbUser.userInfo.split(",");
-        if(userInfoArray.indexOf(subId)===-1){
+        if (userInfoArray.indexOf(subId) === -1) {
           console.log("Deletion not in the array");
-        }else{
+        } else {
           userInfoArray.splice(userInfoArray.indexOf(subId), 1);
           console.log(userInfoArray);
           pushInfo = userInfoArray.join(",");
@@ -179,13 +180,18 @@ module.exports = function (app) {
             { where: { email: dbUser.email } }
           );
         }
-        
 
-        
+
+
       });
     }
   });
-  
+
+  app.get("/api/charts", function (req, res) {
+    res.redirect("/charts");
+  });
+
+
   app.get("/api/:category/:asCode/:typicalEntryLevelEducation", function (
     req,
     res
