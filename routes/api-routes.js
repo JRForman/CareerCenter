@@ -188,7 +188,7 @@ module.exports = function (app) {
   });
 
   app.get("/api/charts", function (req, res) {
-    res.redirect("/charts");
+    res.json("/charts");
   });
 
 

@@ -243,5 +243,5 @@ $("#savedSection").on("click", function (e) {
 });
 
 $("#compare").on("click", function () {
-  window.location.replace("/charts");
+    window.location.assign("/charts");
 });
