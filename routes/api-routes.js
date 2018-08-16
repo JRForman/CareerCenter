@@ -48,7 +48,7 @@ module.exports = function(app) {
       // Sending back a password, even a hashed password, isn't a good idea
       res.json({
         email: req.user.email,
-        id: req.user.id
+        userId: req.user.userId
       });
     }
   });
@@ -253,7 +253,7 @@ module.exports = function(app) {
     }
   });
 
-  app.post("/api/addUserSelection", function(req, res) {
+  app.post("/api/addUserSelection", function(req) {
     var data = req.body;
     console.log(data);
     // if (req.params.asCode) {

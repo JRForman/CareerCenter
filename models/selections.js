@@ -8,8 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     abbreviatedName: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     medianAnnualWage: {
       type: DataTypes.STRING,
@@ -18,12 +17,6 @@ module.exports = function(sequelize, DataTypes) {
     typicalEntryLevelEducation: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true,
-      primaryKey: true
     },
     createdAt: {
       type: DataTypes.STRING,
@@ -41,5 +34,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     });
   };
-  return Selected;
+  return Selections;
 };

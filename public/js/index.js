@@ -90,13 +90,13 @@ $("#submit").on("click", function(e) {
           var newRow = $("<tr>");
           $(newRow).append(
             "<td class='add'><button class='btn' id='" +
-              dbData[data].id +
+              dbData[data].jobsId +
               "'><i class='fa fa-home'></i> Add</button>" +
               "</td>"
           );
           $(newRow).append(
             "<td id='oT" +
-              dbData[data].id +
+              dbData[data].jobsId +
               "'>" +
               dbData[data].occupationTitle +
               "</td>"
@@ -136,7 +136,7 @@ $("#submit").on("click", function(e) {
 $("#resultSection").on("click", function(e) {
   e.preventDefault();
   if (e.target.className === "btn") {
-    selectionID = e.target.id;
+    selectionID = e.target.jobsId;
     var userValues = {
       selectionID: selectionID
     };
