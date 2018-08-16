@@ -78,8 +78,6 @@ module.exports = function (app) {
         group: "category"
       })
       .then(function (data) {
-        // console.log(data);
-        // console.log(data.json);
         return res.json(data);
       });
   });
@@ -119,51 +117,75 @@ module.exports = function (app) {
       return res.json(data);
     });
   });
-  // routes for user requests
 
-  app.get("/api/:category?", function (req, res) {
-    //  get only category
-    if (req.params.category) {
-      db.jobs
-        .findAll({
-          where: {
-            category: req.params.category
+  app.post("/api/addUserSelection", function (req) {
+    var data = req.body;
+    console.log(data);
+
+    if (req.body.length !== 0) {
+      db.User.findOne({
+        where: {
+          email: data.user
+        }
+      }).then(function (dbUser) {
+        var addId = data.selectionID;
+        var pushInfo;
+        if (dbUser.userInfo == null || dbUser.userInfo.trim() === "") {
+          pushInfo = addId;
+          db.User.update(
+            { userInfo: pushInfo },
+            { where: { email: dbUser.email } }
+          );
+        } else {
+          var userInfoArray = [];
+          userInfoArray = dbUser.userInfo.split(",");
+          if (userInfoArray.indexOf(addId) !== -1) {
+            console.log("Selection already in array");
+          } else {
+            userInfoArray.push(addId);
+            pushInfo = userInfoArray.join(",");
+            db.User.update(
+              { userInfo: pushInfo },
+              { where: { email: dbUser.email } }
+            );
           }
-        })
-        .then(function (dbjobs) {
-          return res.json(dbjobs);
-        });
-    }
-  });
-  app.get("/api/:asCode?", function (req, res) {
-    // get only salary
-    if (req.params.asCode) {
-      db.jobs
-        .findAll({
-          where: {
-            asCode: req.params.AS_Code
-          }
-        })
-        .then(function (dbjobs) {
-          return res.json(dbjobs);
-        });
+        }
+      });
     }
   });
 
-  app.get("/api/:typicalEntryLevelEducation?", function (req, res) {
-    // get only education
-    if (req.params.typicalEntryLevelEducation) {
-      db.jobs
-        .findAll({
-          where: {
-            typicalEntryLevelEducation: req.params.typicalEntryLevelEducation
-          }
-        })
-        .then(function (dbjobs) {
-          return res.json(dbjobs);
-        });
+  app.post("/api/subUserSelection", function (req) {
+    var data = req.body;
+    console.log(data);
+
+    if (req.body.length !== 0) {
+      db.User.findOne({
+        where: {
+          email: data.user
+        }
+      }).then(function (dbUser) {
+        var subId = data.selectionID;
+        console.log(dbUser.userInfo);
+        var pushInfo;
+        var userInfoArray = dbUser.userInfo.split(",");
+        if(userInfoArray.indexOf(subId)===-1){
+          console.log("Deletion not in the array");
+        }else{
+          userInfoArray.splice(userInfoArray.indexOf(subId), 1);
+          console.log(userInfoArray);
+          pushInfo = userInfoArray.join(",");
+          db.User.update(
+            { userInfo: pushInfo },
+            { where: { email: dbUser.email } }
+          );
+        }
+        
+
+        
+      });
     }
   });
+  
   app.get("/api/:category/:asCode/:typicalEntryLevelEducation", function (
     req,
     res
@@ -266,88 +288,6 @@ module.exports = function (app) {
             return res.json(dbjobs);
           });
       }
-    }
-  });
-  app.post("/api/addUserSelection", function (req) {
-    var data = req.body;
-    console.log(data);
-
-    if (req.body.length !== 0) {
-      db.User.findOne({
-        where: {
-          email: data.user
-        }
-      }).then(function (dbUser) {
-        var addId = data.selectionID;
-        var pushInfo;
-        if (dbUser.userInfo == null || dbUser.userInfo.trim() === "") {
-          pushInfo = addId;
-          db.User.update(
-            { userInfo: pushInfo },
-            { where: { email: dbUser.email } }
-          );
-        } else {
-          var userInfoArray = [];
-          userInfoArray = dbUser.userInfo.split(",");
-          if (userInfoArray.indexOf(addId) !== -1) {
-            console.log("Selection already in array");
-          } else {
-            userInfoArray.push(addId);
-            pushInfo = userInfoArray.join(",");
-            db.User.update(
-              { userInfo: pushInfo },
-              { where: { email: dbUser.email } }
-            );
-          }
-        }
-      });
-    }
-  });
-
-  app.post("/api/subUserSelection", function (req) {
-    var data = req.body;
-    console.log(data);
-
-    if (req.body.length !== 0) {
-      db.User.findOne({
-        where: {
-          email: data.user
-        }
-      }).then(function (dbUser) {
-        var subId = data.selectionID;
-        console.log(dbUser.userInfo);
-        var pushInfo;
-        var userInfoArray = dbUser.userInfo.split(",");
-        if(userInfoArray.indexOf(subId)===-1){
-          console.log("Deletion not in the array");
-        }else{
-          userInfoArray.splice(userInfoArray.indexOf(subId), 1);
-          console.log(userInfoArray);
-          pushInfo = userInfoArray.join(",");
-          db.User.update(
-            { userInfo: pushInfo },
-            { where: { email: dbUser.email } }
-          );
-        }
-        
-
-        
-      });
-    }
-  });
-
-  app.get("/api/:userID?", function (req, res) {
-    //  get only category
-    if (req.params.userID) {
-      db.selections
-        .findAll({
-          where: {
-            id: req.params.userID
-          }
-        })
-        .then(function (dbselections) {
-          return res.json(dbselections);
-        });
     }
   });
 };
