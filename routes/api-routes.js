@@ -2,11 +2,11 @@
 var db = require("../models");
 var passport = require("../config/passport");
 
-module.exports = function (app) {
+module.exports = function(app) {
   // Using the passport.authenticate middleware with our local strategy.
   // If the user has valid login credentials, send them to the members page.
   // Otherwise the user will be sent an error
-  app.post("/api/login", passport.authenticate("local"), function (req, res) {
+  app.post("/api/login", passport.authenticate("local"), function(req, res) {
     // Since we're doing a POST with javascript, we can't actually redirect that post into a GET request
     // So we're sending the user back the route to the members page because the redirect will happen on the front end
     // They won't get this or even be able to access this page if they aren't authed
@@ -16,16 +16,16 @@ module.exports = function (app) {
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
   // how we configured our Sequelize User Model. If the user is created successfully, proceed to log the user in,
   // otherwise send back an error
-  app.post("/api/signup", function (req, res) {
+  app.post("/api/signup", function(req, res) {
     console.log(req.body);
     db.User.create({
       email: req.body.email,
       password: req.body.password
     })
-      .then(function () {
+      .then(function() {
         res.redirect(307, "/api/login");
       })
-      .catch(function (err) {
+      .catch(function(err) {
         console.log(err);
         res.json(err);
         // res.status(422).json(err.errors[0].message);
@@ -33,13 +33,13 @@ module.exports = function (app) {
   });
 
   // Route for logging user out
-  app.get("/logout", function (req, res) {
+  app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
   });
 
   // Route for getting some data about our user to be used client side
-  app.get("/api/user_data", function (req, res) {
+  app.get("/api/user_data", function(req, res) {
     if (!req.user) {
       // The user is not logged in, send back an empty object
       res.json({});
@@ -48,61 +48,69 @@ module.exports = function (app) {
       // Sending back a password, even a hashed password, isn't a good idea
       res.json({
         email: req.user.email,
+<<<<<<< HEAD
         id: req.user.id,
         userInfo: req.user.userInfo
+=======
+        userId: req.user.userId
+>>>>>>> b658643f24c8c942b3bb2a398f196da27ae58b89
       });
     }
   });
 
   // Route for saving user job selections
-  app.post("/api/form", function (req) {
+  app.post("/api/form", function(req) {
     console.log(req.body);
     db.User.append({
       UserInfo: req.body.userInfo
     });
   });
   // Route for  getting user job selections
-  app.get("/api/form", function (req, res) {
+  app.get("/api/form", function(req, res) {
     db.user
       .findAll({
         group: "userInfo"
       })
-      .then(function (data) {
+      .then(function(data) {
         return res.json(data);
       });
   });
 
   // show form
-  app.get("/api/popCategory", function (req, res) {
+  app.get("/api/popCategory", function(req, res) {
     db.jobs
       .findAll({
         group: "category"
       })
-      .then(function (data) {
+      .then(function(data) {
+        // console.log(data);
+        // console.log(data.json);
         return res.json(data);
       });
   });
 
-  app.get("/api/popAsCode", function (req, res) {
+  app.get("/api/popAsCode", function(req, res) {
     db.jobs
       .findAll({
         group: "asCode"
       })
-      .then(function (data) {
+      .then(function(data) {
         return res.json(data);
       });
   });
 
-  app.get("/api/poptypicalEntryLevelEducation", function (req, res) {
+  app.get("/api/poptypicalEntryLevelEducation", function(req, res) {
     db.jobs
       .findAll({
         group: "educationCode"
       })
-      .then(function (data) {
+      .then(function(data) {
         return res.json(data);
       });
   });
+  // routes for user requests
 
+<<<<<<< HEAD
   app.get("/api/savedJobs/:userId?", function (req, res) {
     db.User.findOne({
       where: { id: req.params.userId }
@@ -117,44 +125,38 @@ module.exports = function (app) {
     }).then(function (data) {
       return res.json(data);
     });
-  });
-
-  app.post("/api/addUserSelection", function (req) {
-    var data = req.body;
-    console.log(data);
-
-    if (req.body.length !== 0) {
-      db.User.findOne({
-        where: {
-          email: data.user
-        }
-      }).then(function (dbUser) {
-        var addId = data.selectionID;
-        var pushInfo;
-        if (dbUser.userInfo == null || dbUser.userInfo.trim() === "") {
-          pushInfo = addId;
-          db.User.update(
-            { userInfo: pushInfo },
-            { where: { email: dbUser.email } }
-          );
-        } else {
-          var userInfoArray = [];
-          userInfoArray = dbUser.userInfo.split(",");
-          if (userInfoArray.indexOf(addId) !== -1) {
-            console.log("Selection already in array");
-          } else {
-            userInfoArray.push(addId);
-            pushInfo = userInfoArray.join(",");
-            db.User.update(
-              { userInfo: pushInfo },
-              { where: { email: dbUser.email } }
-            );
+=======
+  app.get("/api/:category?", function(req, res) {
+    //  get only category
+    if (req.params.category) {
+      db.jobs
+        .findAll({
+          where: {
+            category: req.params.category
           }
-        }
-      });
+        })
+        .then(function(dbjobs) {
+          return res.json(dbjobs);
+        });
+    }
+>>>>>>> b658643f24c8c942b3bb2a398f196da27ae58b89
+  });
+  app.get("/api/:asCode?", function(req, res) {
+    // get only salary
+    if (req.params.asCode) {
+      db.jobs
+        .findAll({
+          where: {
+            asCode: req.params.AS_Code
+          }
+        })
+        .then(function(dbjobs) {
+          return res.json(dbjobs);
+        });
     }
   });
 
+<<<<<<< HEAD
   app.post("/api/subUserSelection", function (req) {
     var data = req.body;
     console.log(data);
@@ -193,6 +195,23 @@ module.exports = function (app) {
 
 
   app.get("/api/:category/:asCode/:typicalEntryLevelEducation", function (
+=======
+  app.get("/api/:typicalEntryLevelEducation?", function(req, res) {
+    // get only education
+    if (req.params.typicalEntryLevelEducation) {
+      db.jobs
+        .findAll({
+          where: {
+            typicalEntryLevelEducation: req.params.typicalEntryLevelEducation
+          }
+        })
+        .then(function(dbjobs) {
+          return res.json(dbjobs);
+        });
+    }
+  });
+  app.get("/api/:category/:asCode/:typicalEntryLevelEducation", function(
+>>>>>>> b658643f24c8c942b3bb2a398f196da27ae58b89
     req,
     res
   ) {
@@ -205,43 +224,43 @@ module.exports = function (app) {
       case category === "Search All" &&
         asCode === "Search All" &&
         typicalEntryLevelEducation === "Search All": {
-          db.jobs.findAll({ where: {} }).then(function (dbjobs) {
-            return res.json(dbjobs);
-          });
-          break;
-        }
+        db.jobs.findAll({ where: {} }).then(function(dbjobs) {
+          return res.json(dbjobs);
+        });
+        break;
+      }
       case category === "Search All" && asCode === "Search All": {
         db.jobs
           .findAll({
             where: { typicalEntryLevelEducation: typicalEntryLevelEducation }
           })
-          .then(function (dbjobs) {
+          .then(function(dbjobs) {
             return res.json(dbjobs);
           });
         break;
       }
       case category === "Search All" &&
         typicalEntryLevelEducation === "Search All": {
-          db.jobs
-            .findAll({
-              where: { asCode: asCode }
-            })
-            .then(function (dbjobs) {
-              return res.json(dbjobs);
-            });
-          break;
-        }
+        db.jobs
+          .findAll({
+            where: { asCode: asCode }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+        break;
+      }
       case asCode === "Search All" &&
         typicalEntryLevelEducation === "Search All": {
-          db.jobs
-            .findAll({
-              where: { category: category }
-            })
-            .then(function (dbjobs) {
-              return res.json(dbjobs);
-            });
-          break;
-        }
+        db.jobs
+          .findAll({
+            where: { category: category }
+          })
+          .then(function(dbjobs) {
+            return res.json(dbjobs);
+          });
+        break;
+      }
       case category === "Search All": {
         db.jobs
           .findAll({
@@ -250,7 +269,7 @@ module.exports = function (app) {
               asCode: asCode
             }
           })
-          .then(function (dbjobs) {
+          .then(function(dbjobs) {
             return res.json(dbjobs);
           });
         break;
@@ -263,7 +282,7 @@ module.exports = function (app) {
               typicalEntryLevelEducation: typicalEntryLevelEducation
             }
           })
-          .then(function (dbjobs) {
+          .then(function(dbjobs) {
             return res.json(dbjobs);
           });
         break;
@@ -276,7 +295,7 @@ module.exports = function (app) {
               asCode: asCode
             }
           })
-          .then(function (dbjobs) {
+          .then(function(dbjobs) {
             return res.json(dbjobs);
           });
         break;
@@ -290,10 +309,41 @@ module.exports = function (app) {
               asCode: asCode
             }
           })
-          .then(function (dbjobs) {
+          .then(function(dbjobs) {
             return res.json(dbjobs);
           });
       }
     }
+  });
+
+  app.post("/api/addUserSelection", function(req) {
+    var data = req.body;
+    console.log(data);
+    // if (req.params.asCode) {
+    //   db.jobs
+    //     .findAll({
+    //       where: {
+    //         asCode: req.params.AS_Code
+    //       }
+    //     })
+    //     .then(function(dbjobs) {
+    //       return res.json(dbjobs);
+    //     });
+    // }
+    // user selection routes
+    app.get("/api/:userID?", function(req, res) {
+      //  get only category
+      if (req.params.userID) {
+        db.selections
+          .findAll({
+            where: {
+              userID: req.params.userID
+            }
+          })
+          .then(function(dbselections) {
+            return res.json(dbselections);
+          });
+      }
+    });
   });
 };
