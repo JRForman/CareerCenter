@@ -27,22 +27,10 @@ $(document).ready(function () {
   var years = [];
   var loanAmount = 80000;
   var StdLoanBalance = [];
-  //         if("selection from Education level"==="High school diploma or equivalent"){
-  //     loanAmount = 0;
-  // }if("selection from Education level"==="Postsecondary nondegree award"||"Associate's degree"){
-  //     loanAmount = 20000;
-  // }if("selection from Education level"==="Bachelor's degree"){
-  //     loanAmount = 80000;
-  // }if("selection from Education level"==="Master's degree"){
-  //     loanAmount = 140000;
-  // }if("selection from Education level"==="Doctoral or professional degree"){
-  //     loanAmount = 190000;
+  
 
-  //Student Loan calculations
-  function getTotalBalance(balance, iRate, iMonths) {
-    return balance * Math.pow(1 + iRate, iMonths);
-  }
-
+  
+ 
   function getMonthlyPayment(balance, iRate, iMonths) {
     return (
       balance *
@@ -91,25 +79,28 @@ $(document).ready(function () {
   StdLoanBalance = StdLoanBalance.map(function (eachElement) {
     return Number(eachElement.toFixed(2));
   });
-
+  
+  
   var medSalaries = [];
-  var median = 60000;
-  median = median * 0.5;
+  var median = 45000;
+  median = median * 0.8;
 
   for (var i = 0; i <= 30; i++) {
     median = median * 1.03729;
     medSalaries.push(median);
   }
+
   var medSalaries2 = [];
-  var median2 = 40000;
+  var median2 = 190840;
   median2 = median2 * 0.5;
   //create a for each function
   for (var i = 0; i <= 30; i++) {
     median2 = median2 * 1.0372;
     medSalaries2.push(median2);
   }
+ 
   var medSalaries3 = [];
-  var median3 = 30000;
+  var median3 = 101560;
   median3 = median3 * 0.5;
 
   for (var i = 0; i <= 30; i++) {
@@ -125,6 +116,7 @@ $(document).ready(function () {
   console.log("mediansalarys", medSalaries);
   console.log("mediansalarys2", medSalaries2);
   console.log("mediansalarys3", medSalaries3);
+
 
   ///displaying graphs
   var pieChartData = {
@@ -161,8 +153,8 @@ $(document).ready(function () {
     labels: years,
     datasets: [
       {
-        label: "Job1",
-        data: medSalaries,
+        label: "Engineering",
+        data: medSalaries3,
         backgroundColor: "rgba(179,124,87,.4)"
       },
       {
@@ -181,19 +173,19 @@ $(document).ready(function () {
     labels: years,
     datasets: [
       {
-        label: "Job1",
+        label: "Education",
         data: medSalaries,
         backgroundColor: "rgba(179,124,87,.7)",
         fill: false
       },
       {
-        label: "Job2 ",
+        label: "Dentist",
         data: medSalaries2,
         backgroundColor: "rgba(60,69,92,0.7)",
         fill: false
       },
       {
-        label: "Job2 ",
+        label: "Engineering",
         data: medSalaries3,
         backgroundColor: "rgba(96,65,43,0.7)",
         fill: false
@@ -207,7 +199,7 @@ $(document).ready(function () {
   };
 
   window.onload = function () {
-    var ctx = document.getElementById("canvas").getContext("2d");
+    var ctx = document.getElementById("canvas1").getContext("2d");
     window.myBar = new Chart(ctx, {
       type: "pie",
       data: pieChartData,
@@ -246,7 +238,7 @@ $(document).ready(function () {
       }
     });
 
-    var ctx3 = document.getElementById("canvas1").getContext("2d");
+    var ctx3 = document.getElementById("canvas3").getContext("2d");
     window.myBar = new Chart(ctx3, {
       type: "line",
       data: medianData,
@@ -273,7 +265,7 @@ $(document).ready(function () {
       }
     });
 
-    var ctx4 = document.getElementById("canvas3").getContext("2d");
+    var ctx4 = document.getElementById("canvas4").getContext("2d");
     window.myBar = new Chart(ctx4, {
       type: "line",
       data: comparisonData,
