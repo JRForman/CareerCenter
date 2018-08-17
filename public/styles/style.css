@@ -74,7 +74,6 @@ a:active {
   margin-left: 0;
   margin-right: 0;
   margin-bottom: 5vh;
- 
 }
 #banner{
   width: 70%;
@@ -95,7 +94,6 @@ a:active {
   color: #b37c57;
   border-color: #a3aaaf;
 }
-/* chart page */
 #canvas1{
   display: flex;
   float: left;
