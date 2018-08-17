@@ -5,6 +5,7 @@ var exphbs = require("express-handlebars");
 var passport = require("./config/passport");
 var db = require("./models");
 var session = require("express-session");
+var path = require("path");
 
 var app = express();
 var PORT = process.env.PORT || 8080;
@@ -12,7 +13,7 @@ var PORT = process.env.PORT || 8080;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({ secret: "keyboard cat", resave: true, saveUninitialized: true })
 );
