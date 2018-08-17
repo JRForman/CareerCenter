@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 // post req for user job selections
 $("#saveButton").on("click", function() {
-  $.get("/api/:id").then(function(DBData) {
-    $(DBData[data].id).append("/api/user");
+  $.get("/api/:jobsId").then(function(DBData) {
+    $(DBData[data].jobsId).append("/api/selections");
   });
 });
