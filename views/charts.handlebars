@@ -1,29 +1,23 @@
-<div class="container">
-  <div class="row">
-    <div class="col-8 offset-2">
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">Example</h5>
-          <p>
-            <strong>ID</strong>: {{example.id}}</p>
-          <p>
-            {{!-- just finding a placeholder for now --}}
-              <div id="chartContainer" style="height: 300px; width: 100%;">
-
-              </div>
-          <p>
-            <strong>Text</strong>: {{example.text}}</p>
-          <p>
-            <strong>Description:</strong> {{example.description}}</p>
-            <a href="/">← Back To Home</a>
-        </div>
-      </div>
-    </div>
+<div class="container-fluid" id="indexNavigation">
+  <div class="col-auto mr-auto"> <img src="/images/Career Center Banner.png" id="banner" alt="banner"></div>
+  <div class="col-auto mr-auto" id="navCol">
+    <h4 id="member-name" class="pull-right">Placeholder</h4>
   </div>
+  <div class="col-auto" id="navCol"><button class="btn btn-danger pull-right" type="submit" id="logout">Logout</button></div>
+  <div class="col-auto" id="navCol"> <strong></strong></p>
+  <a href="/">← Back To Home</a></div>
 </div>
-
-    <canvas id="canvas1"></canvas>
-    <canvas id="canvas"></canvas>
-    <canvas id="canvas2"></canvas>
-    <canvas id="canvas3"></canvas>
+<div id="buttonsDiv">
+  <button type="button" class="btn"id ="Education">Job 1</button>
+  <button type="button" class="btn"id ="Dentist">Job 2</button>
+  <button type="button" class="btn"id ="Engineering">Job 3</button>
+</div>
+<div class="testing">Test</div>
+<div class="container-fluid">
+  <canvas id="canvas1"></canvas>
+  <canvas id="canvas2"></canvas>
+  <canvas id="canvas3"></canvas>
+  <canvas id="canvas4"></canvas>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 <script src="/js/chart.js"></script>
